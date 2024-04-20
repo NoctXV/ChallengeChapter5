@@ -1,0 +1,262 @@
+---
+openapi: 3.0.1
+info:
+  title: Banking System
+  description: Challenge Chapter 5
+  version: 1.0.0
+  contact:
+    email: kuroshiro30243@gmail.com
+servers:
+- url: http://localhost:3000/api/v1
+tags:
+- name: Users
+- name: Account
+- name: Transaction
+- name: Authentication
+paths:
+  "/users":
+    post:
+      tags:
+      - Users
+      summary: create users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                address:
+                  type: string
+                identity_type:
+                  type: integer
+                identity_number:
+                  type: integer
+              required:
+                - name
+                - email
+                - password
+                - address
+                - identity_type
+                - identity_number
+      responses:
+        '201':
+          description: success
+        '400':
+          description: failed
+    get:
+      tags:
+      - Users
+      summary: getall users
+      description: " "
+      parameters:
+      - required: true
+        in: query
+        name: search
+        schema:
+          type: string
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/users/:id":
+    get:
+      tags:
+      - Users
+      summary: detail users
+      description: ''
+      parameters:
+      - required: true
+        in: path
+        name: userId
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/account":
+    post:
+      tags:
+      - Account
+      summary: create account 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users_id:
+                  type: string
+                bank_name:
+                  type: string
+                bank_account_number:
+                  type: string
+                balance:
+                  type: string
+              required:
+                - users_id
+                - bank_name
+                - bank_account_number
+                - balance
+      responses:
+        '201':
+          description: success
+        '400':
+          description: failed
+    get:
+      tags:
+      - Account
+      summary: getall account 
+      description: " "
+      parameters:
+      - required: true
+        in: query
+        name: search
+        schema:
+          type: string
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/account/:id":
+    get:
+      tags:
+      - Account
+      summary: detail account 
+      description: ''
+      parameters:
+      - required: true
+        in: path
+        name: accountId
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/transaction":
+    post:
+      tags:
+      - Transaction
+      summary: create transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source_account_id:
+                  type: integer
+                destination_account_id:
+                  type: integer
+                amount:
+                  type: integer
+              required:
+              - source_account_id
+              - destination_account_id
+              - amount
+      responses:
+        '201':
+          description: success
+        '400':
+          description: failed
+    get:
+      tags:
+      - Transaction
+      summary: getall transaction
+      description: " "
+      parameters:
+      - required: true
+        in: query
+        name: search
+        schema:
+          type: string
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/transaction/:id":
+    get:
+      tags:
+      - Transaction
+      summary: detail transaction 
+      description: ''
+      parameters:
+      - required: true
+        in: path
+        name: transactionId
+        schema:
+          type: integer
+        description: Transactions ID
+      responses:
+        '200':
+          description: success
+        '404':
+          description: failed
+  "/auth/register":
+    post:
+      tags:
+      - Authentication
+      summary: register user 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+              - name
+              - email
+              - password
+      responses:
+        '201':
+          description: user already exist
+        '400':
+          description: email already use 
+  "/auth/login":
+    post:
+      tags:
+      - Authentication
+      summary: user login 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+              - email
+              - password
+      responses:
+        '200':
+          description: success
+        '400':
+          description: failed
